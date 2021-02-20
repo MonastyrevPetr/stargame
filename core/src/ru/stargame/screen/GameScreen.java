@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.stargame.base.BaseScreen;
 import ru.stargame.math.Rect;
+import ru.stargame.pool.BulletPool;
 import ru.stargame.sprite.Background;
 import ru.stargame.sprite.MainShip;
 import ru.stargame.sprite.Star;
@@ -21,6 +22,9 @@ public class GameScreen extends BaseScreen {
 
     private Background background;
     private Star[] stars;
+
+    private BulletPool bulletPool;
+
     private MainShip mainShip;
 
     @Override
@@ -33,12 +37,14 @@ public class GameScreen extends BaseScreen {
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i] = new Star(atlas);
         }
-        mainShip = new MainShip(atlas);
+        bulletPool = new BulletPool();
+        mainShip = new MainShip(atlas,bulletPool);
     }
 
     @Override
     public void render(float delta) {
         draw();
+        freeAllDestroyed();
         update(delta);
     }
 
@@ -55,21 +61,25 @@ public class GameScreen extends BaseScreen {
     public void dispose() {
         bg.dispose();
         atlas.dispose();
+        bulletPool.dispose();
         super.dispose();
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        mainShip.keyDown(keycode);
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        mainShip.keyDown(keycode);
         return false;
     }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
+        mainShip.touchDown(touch,pointer,button);
         return false;
     }
 
@@ -84,6 +94,11 @@ public class GameScreen extends BaseScreen {
             star.update(delta);
         }
         mainShip.update(delta);
+        bulletPool.updateActiveSprite(delta);
+    }
+
+    private void freeAllDestroyed(){
+        bulletPool.freeAllDestroyActiveSprites();
     }
 
     private void draw(){
@@ -95,6 +110,7 @@ public class GameScreen extends BaseScreen {
             star.draw(batch);
         }
         mainShip.draw(batch);
+        bulletPool.drawActiveSprite(batch);
         batch.end();
     }
 }
