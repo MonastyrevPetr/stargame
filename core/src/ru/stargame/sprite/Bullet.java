@@ -13,6 +13,7 @@ public class Bullet extends Sprite {
     private int damage;
     private Sprite owner;
 
+
     public Bullet() {
         this.v = new Vector2();
         regions = new TextureRegion[1];
