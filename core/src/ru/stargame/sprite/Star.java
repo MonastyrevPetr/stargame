@@ -15,30 +15,31 @@ public class Star extends Sprite {
     public Star(TextureAtlas atlas) {
         super(atlas.findRegion("star"));
         float x = Rnd.nextFloat(-0.0005f, 0.0005f);
-        float y = Rnd.nextFloat(-0.2f, -0.01f);
-//        v= new Vector2(x,y);
-        setHeightProportion(Rnd.nextFloat(0.005f,0.015f));
-        v = new Vector2(Rnd.nextFloat(-0.005f,0.005f),getHeight()*-10);
+        float y = Rnd.nextFloat(-0.15f, -0.01f);
+        v = new Vector2(x, y);
+//        setHeightProportion(Rnd.nextFloat(0.005f,0.015f));
+//        v = new Vector2(Rnd.nextFloat(-0.005f,0.005f),getHeight()*-10);
     }
 
     @Override
     public void update(float delta) {
         pos.mulAdd(v, delta);
-        if (getRight()<worldBounds.getLeft() ){
+        if (getRight() < worldBounds.getLeft()) {
             setLeft(worldBounds.getRight());
         }
-        if (getLeft()>worldBounds.getRight()){
+        if (getLeft() > worldBounds.getRight()) {
             setRight(worldBounds.getLeft());
         }
-        if (getTop()<worldBounds.getBottom()){
+        if (getTop() < worldBounds.getBottom()) {
             setBottom(worldBounds.getTop());
         }
     }
 
     @Override
     public void resize(Rect worldBounds) {
-        this.worldBounds=worldBounds;
-//        setHeightProportion(Rnd.nextFloat(0.05f,0.15f)*v.len());
+        this.worldBounds = worldBounds;
+        // Можно решит параллакс умножив на длину вектора скорости?
+        setHeightProportion(Rnd.nextFloat(0.05f, 0.07f) * v.len());
         float x = Rnd.nextFloat(worldBounds.getLeft(), worldBounds.getRight());
         float y = Rnd.nextFloat(worldBounds.getBottom(), worldBounds.getTop());
         pos.set(x, y);
