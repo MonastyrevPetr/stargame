@@ -132,6 +132,7 @@ public class GameScreen extends BaseScreen {
         explosionPool.updateActiveSprite(delta);
         enemyPool.updateActiveSprite(delta);
         enemyEmitter.generate(delta);
+
     }
 
     private void checkCollisions() {
