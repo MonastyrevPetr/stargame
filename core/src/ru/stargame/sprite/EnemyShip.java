@@ -15,15 +15,15 @@ public class EnemyShip extends Ship {
         this.worldBounds=worldBounds;
         this.sound=sound;
         v = new Vector2();
-        v0 = new Vector2();
+        v0 = new Vector2(0,-0.2f);
         bulletPos = new Vector2();
         bulletV= new Vector2();
     }
 
     @Override
     public void update(float delta) {
-        super.update(delta);
         bulletPos.set(pos.x,pos.y-getHalfHeight());
+        super.update(delta);
         if (getBottom()<worldBounds.getBottom()){
             destroy();
         }
@@ -45,6 +45,7 @@ public class EnemyShip extends Ship {
         this.bulletV.set(bulletV);
         this.damage=damage;
         this.reloadInterval=reloadInterval;
+        this.reloadTimer=reloadInterval;
         setHeightProportion(height);
         this.hp=hp;
     }

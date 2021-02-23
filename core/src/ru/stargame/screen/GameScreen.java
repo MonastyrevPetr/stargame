@@ -119,6 +119,7 @@ public class GameScreen extends BaseScreen {
         bulletPool.updateActiveSprite(delta);
         enemyPool.updateActiveSprite(delta);
         enemyEmitter.generate(delta);
+
     }
 
     private void freeAllDestroyed() {
