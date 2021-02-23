@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+
 import ru.stargame.base.Ship;
 import ru.stargame.math.Rect;
 import ru.stargame.pool.BulletPool;
@@ -25,7 +26,7 @@ public class MainShip extends Ship {
     public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
         this.bulletPool = bulletPool;
-        this.explosionPool=explosionPool;
+        this.explosionPool = explosionPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         v = new Vector2();
         v0 = new Vector2(0.5f, 0);
@@ -33,15 +34,22 @@ public class MainShip extends Ship {
         bulletPos = new Vector2();
         bulletHeight = 0.01f;
         damage = 1;
-        reloadInterval = 0.15f;
+        reloadInterval = 0.2f;
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
-        hp=100;
+        hp = 100;
+    }
+
+    @Override
+    public void resize(Rect worldBounds) {
+        setHeightProportion(HEIGHT);
+        setBottom(worldBounds.getBottom() + PADDING);
+        this.worldBounds = worldBounds;
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
-        bulletPos.set(pos.x,pos.y+getHalfHeight());
+        bulletPos.set(pos.x, pos.y + getHalfHeight());
         if (getRight() > worldBounds.getRight()) {
             setRight(worldBounds.getRight());
             stop();
@@ -53,11 +61,21 @@ public class MainShip extends Ship {
     }
 
     @Override
-    public void resize(Rect worldBounds) {
-        setHeightProportion(HEIGHT);
-        setBottom(worldBounds.getBottom() + PADDING);
-        this.worldBounds = worldBounds;
-
+    public boolean touchDown(Vector2 touch, int pointer, int button) {
+        if (touch.x < worldBounds.pos.x) {
+            if (leftPointer != INVALID_POINTER) {
+                return false;
+            }
+            leftPointer = pointer;
+            moveLeft();
+        } else {
+            if (rightPointer != INVALID_POINTER) {
+                return false;
+            }
+            rightPointer = pointer;
+            moveRight();
+        }
+        return false;
     }
 
     @Override
@@ -76,24 +94,6 @@ public class MainShip extends Ship {
             } else {
                 stop();
             }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(Vector2 touch, int pointer, int button) {
-        if (touch.x < worldBounds.pos.x) {
-            if (leftPointer != INVALID_POINTER) {
-                return false;
-            }
-            leftPointer = pointer;
-            moveLeft();
-        } else {
-            if (rightPointer != INVALID_POINTER) {
-                return false;
-            }
-            rightPointer = pointer;
-            moveRight();
         }
         return false;
     }
@@ -128,9 +128,9 @@ public class MainShip extends Ship {
             case Input.Keys.D:
             case Input.Keys.RIGHT:
                 pressedRight = false;
-                if (pressedLeft)
+                if (pressedLeft) {
                     moveLeft();
-                else {
+                } else {
                     stop();
                 }
                 break;
@@ -138,8 +138,16 @@ public class MainShip extends Ship {
         return false;
     }
 
-    public boolean isBulletCollision(Rect bullet){
-        return !(bullet.getRight()<getLeft() || bullet.getLeft()>getRight() || bullet.getBottom()>pos.y || bullet.getTop()<getBottom());
+    public void dispose() {
+        sound.dispose();
+    }
+
+    public boolean isBulletCollision(Rect bullet) {
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > pos.y
+                || bullet.getTop() < getBottom()
+        );
     }
 
     private void moveRight() {
@@ -152,11 +160,6 @@ public class MainShip extends Ship {
 
     private void stop() {
         v.setZero();
-    }
-
-
-    public void dispose() {
-        sound.dispose();
     }
 
 }

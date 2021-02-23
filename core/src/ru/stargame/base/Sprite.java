@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-
 import ru.stargame.math.Rect;
 import ru.stargame.utils.Regions;
 
@@ -36,7 +35,7 @@ public class Sprite extends Rect {
 
     public void setHeightProportion(float height) {
         setHeight(height);
-        float aspect = regions[frame].getRegionWidth() / (float) regions[frame].getRegionHeight();
+        float aspect = regions[frame].getRegionWidth() /(float) regions[frame].getRegionHeight();
         setWidth(height * aspect);
     }
 

@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 
-
 import ru.stargame.math.MatrixUtils;
 import ru.stargame.math.Rect;
 
@@ -150,6 +149,7 @@ public class BaseScreen implements Screen, InputProcessor {
 
     @Override
     public boolean scrolled(float amountX, float amountY) {
+        System.out.println("scrolled amount = " + amountX);
         return false;
     }
 

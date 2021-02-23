@@ -3,12 +3,10 @@ package ru.stargame.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-
 
 import ru.stargame.base.BaseScreen;
 import ru.stargame.math.Rect;
@@ -19,7 +17,7 @@ import ru.stargame.sprite.Star;
 
 public class MenuScreen extends BaseScreen {
 
-    private static final int STAR_COUNT=256;
+    private static final int STAR_COUNT = 256;
 
     private final Game game;
 
@@ -32,10 +30,8 @@ public class MenuScreen extends BaseScreen {
     private ButtonExit buttonExit;
     private ButtonPlay buttonPlay;
 
-    private Music music;
-
     public MenuScreen(Game game) {
-        this.game=game;
+        this.game = game;
     }
 
     @Override
@@ -48,11 +44,8 @@ public class MenuScreen extends BaseScreen {
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i] = new Star(atlas);
         }
-        buttonExit=new ButtonExit(atlas);
-        buttonPlay=new ButtonPlay(atlas,game);
-        music=Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
-        music.setLooping(true);
-        music.play();
+        buttonExit = new ButtonExit(atlas);
+        buttonPlay = new ButtonPlay(atlas, game);
     }
 
     @Override
@@ -65,14 +58,13 @@ public class MenuScreen extends BaseScreen {
     public void dispose() {
         bg.dispose();
         atlas.dispose();
-        music.dispose();
         super.dispose();
     }
 
     @Override
     public void resize(Rect worldBounds) {
         background.resize(worldBounds);
-        for (Star star:stars) {
+        for (Star star : stars) {
             star.resize(worldBounds);
         }
         buttonExit.resize(worldBounds);
@@ -81,20 +73,20 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-        buttonExit.touchDown(touch,pointer,button);
-        buttonPlay.touchDown(touch,pointer,button);
+        buttonExit.touchDown(touch, pointer, button);
+        buttonPlay.touchDown(touch, pointer, button);
         return false;
     }
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer, int button) {
-        buttonExit.touchUp(touch,pointer,button);
-        buttonPlay.touchUp(touch,pointer,button);
+        buttonExit.touchUp(touch, pointer, button);
+        buttonPlay.touchUp(touch, pointer, button);
         return false;
     }
 
     private void update(float delta) {
-        for (Star star:stars) {
+        for (Star star : stars) {
             star.update(delta);
         }
     }
@@ -104,7 +96,7 @@ public class MenuScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-        for (Star star:stars) {
+        for (Star star : stars) {
             star.draw(batch);
         }
         buttonExit.draw(batch);

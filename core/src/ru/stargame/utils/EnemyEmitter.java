@@ -32,7 +32,6 @@ public class EnemyEmitter {
     private final Vector2 enemySmallBulletV = new Vector2(0, -0.3f);
     private final Vector2 enemyMediumBulletV = new Vector2(0, -0.25f);
     private final Vector2 enemyBigBulletV = new Vector2(0, -0.2f);
-
     private final Vector2 enemySmallV = new Vector2(0, -0.2f);
     private final Vector2 enemyMediumV = new Vector2(0, -0.03f);
     private final Vector2 enemyBigV = new Vector2(0, -0.005f);
@@ -64,8 +63,8 @@ public class EnemyEmitter {
         if (generateTimer >= generateInterval) {
             generateTimer = 0f;
             EnemyShip enemyShip = enemyPool.obtain();
-            float enemyType=(float) Math.random();
-            if (enemyType<0.5f){
+            float enemyType = (float) Math.random();
+            if (enemyType < 0.5f) {
                 enemyShip.set(
                         enemySmallRegions,
                         enemySmallV,
@@ -77,7 +76,7 @@ public class EnemyEmitter {
                         ENEMY_SMALL_HEIGHT,
                         ENEMY_SMALL_HP
                 );
-            }else if (enemyType<0.8){
+            } else if (enemyType < 0.8f) {
                 enemyShip.set(
                         enemyMediumRegions,
                         enemyMediumV,
@@ -89,7 +88,7 @@ public class EnemyEmitter {
                         ENEMY_MEDIUM_HEIGHT,
                         ENEMY_MEDIUM_HP
                 );
-            }else{
+            } else {
                 enemyShip.set(
                         enemyBigRegions,
                         enemyBigV,
@@ -102,8 +101,10 @@ public class EnemyEmitter {
                         ENEMY_BIG_HP
                 );
             }
-
-            enemyShip.pos.x= Rnd.nextFloat(worldBounds.getLeft()+enemyShip.getHalfWidth(),worldBounds.getRight()-enemyShip.getHalfWidth());
+            enemyShip.pos.x = Rnd.nextFloat(
+                    worldBounds.getLeft() + enemyShip.getHalfWidth(),
+                    worldBounds.getRight() - enemyShip.getHalfWidth()
+            );
             enemyShip.setBottom(worldBounds.getTop());
         }
     }

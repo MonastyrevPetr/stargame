@@ -33,8 +33,8 @@ public class GameScreen extends BaseScreen {
     private Star[] stars;
 
     private BulletPool bulletPool;
-    private EnemyPool enemyPool;
     private ExplosionPool explosionPool;
+    private EnemyPool enemyPool;
 
     private MainShip mainShip;
 
@@ -93,8 +93,8 @@ public class GameScreen extends BaseScreen {
         explosionPool.dispose();
         enemyPool.dispose();
         music.dispose();
-        explosionSound.dispose();
         enemyBulletSound.dispose();
+        explosionSound.dispose();
         mainShip.dispose();
         super.dispose();
     }
@@ -107,7 +107,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean keyUp(int keycode) {
-        mainShip.keyDown(keycode);
+        mainShip.keyUp(keycode);
         return false;
     }
 
@@ -128,16 +128,15 @@ public class GameScreen extends BaseScreen {
             star.update(delta);
         }
         mainShip.update(delta);
-        bulletPool.updateActiveSprite(delta);
-        explosionPool.updateActiveSprite(delta);
-        enemyPool.updateActiveSprite(delta);
+        bulletPool.updateActiveSprites(delta);
+        explosionPool.updateActiveSprites(delta);
+        enemyPool.updateActiveSprites(delta);
         enemyEmitter.generate(delta);
-
     }
 
     private void checkCollisions() {
-        List<EnemyShip> enemyShipList = enemyPool.getActiveObject();
-        List<Bullet> bulletList = bulletPool.getActiveObject();
+        List<EnemyShip> enemyShipList = enemyPool.getActiveObjects();
+        List<Bullet> bulletList = bulletPool.getActiveObjects();
         for (EnemyShip enemyShip : enemyShipList) {
             if (enemyShip.isDestroyed()) {
                 continue;
@@ -172,9 +171,9 @@ public class GameScreen extends BaseScreen {
     }
 
     private void freeAllDestroyed() {
-        bulletPool.freeAllDestroyActiveSprites();
-        explosionPool.freeAllDestroyActiveSprites();
-        enemyPool.freeAllDestroyActiveSprites();
+        bulletPool.freeAllDestroyedActiveSprites();
+        explosionPool.freeAllDestroyedActiveSprites();
+        enemyPool.freeAllDestroyedActiveSprites();
     }
 
     private void draw() {
@@ -186,9 +185,9 @@ public class GameScreen extends BaseScreen {
             star.draw(batch);
         }
         mainShip.draw(batch);
-        bulletPool.drawActiveSprite(batch);
-        explosionPool.drawActiveSprite(batch);
-        enemyPool.drawActiveSprite(batch);
+        bulletPool.drawActiveSprites(batch);
+        explosionPool.drawActiveSprites(batch);
+        enemyPool.drawActiveSprites(batch);
         batch.end();
     }
 }
