@@ -33,6 +33,8 @@ public class MenuScreen extends BaseScreen {
     private ButtonExit buttonExit;
     private ButtonPlay buttonPlay;
 
+    private Music music;
+
     public MenuScreen(Game game) {
         this.game=game;
     }
@@ -49,6 +51,8 @@ public class MenuScreen extends BaseScreen {
         }
         buttonExit=new ButtonExit(atlas);
         buttonPlay=new ButtonPlay(atlas,game);
+        music=Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
+        music.play();
     }
 
     @Override
@@ -61,6 +65,7 @@ public class MenuScreen extends BaseScreen {
     public void dispose() {
         bg.dispose();
         atlas.dispose();
+        music.dispose();
         super.dispose();
     }
 
